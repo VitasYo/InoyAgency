@@ -1,10 +1,10 @@
 <template>
   <el-dialog
     v-model="visible"
+    width="500px"
     :show-close="true"
-    :width="dialogWidth"
+    class="popup"
     :close-on-click-modal="false"
-    :class="{'popup-dialog': true, 'is-mobile': isMobile}"
   >
     <template #header>
       <div class="popup-header">
@@ -35,7 +35,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+
+const visible = defineModel<boolean>('modelValue') // v-model в родителе
 
 const form = ref({
   name: '',
@@ -48,45 +51,11 @@ const submitForm = () => {
   ElMessage.success('Заявка отправлена!')
   visible.value = false
 }
-
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-
-const visible = ref(false);
-const isMobile = ref(false);
-
-const checkMobile = () => {
-  isMobile.value = window.innerWidth <= 768;
-};
-
-const dialogWidth = computed(() => {
-  return isMobile.value ? '90%' : '500px';
-});
-
-onMounted(() => {
-  window.addEventListener('resize', checkMobile);
-  checkMobile();
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', checkMobile);
-});
 </script>
 
 <style scoped>
-/* Общие стили для обеих версий */
-.popup-dialog {
-  border-radius: 12px;
-}
-
-/* Стили только для десктопной версии */
-.popup-dialog:not(.is-mobile) {
-  max-width: 500px;
-}
-
-/* Стили только для мобильной версии */
-.popup-dialog.is-mobile {
-  width: 90%;
-  max-width: 100%;
+.popup :deep(.el-dialog__body) {
+  padding: 0;
 }
 
 .popup-header {

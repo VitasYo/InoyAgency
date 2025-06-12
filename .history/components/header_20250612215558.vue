@@ -47,13 +47,14 @@
       </div>
 
       <div class="right-button" v-if="!isMobile">
-        <button class="main_button" @click="handleDesktopClick">Обсудить проект</button>
+        <NuxtLink class="main_button" @click="popupVisible = true">Обсудить проект</NuxtLink>
+        <Popup v-model="popupVisible" />
       </div>
     </div>
 
     <!-- Mobile dropdown menu -->
     <transition name="slide-down">
-      <div v-if="isMobile && mobileOpen" class="mobile-menu" @click.stop>
+      <div v-if="isMobile && mobileOpen" class="mobile-menu">
         <el-menu
           class="mobile-menu-list"
           :router="true"
@@ -74,17 +75,16 @@
         </el-menu>
         
         <div class="mobile-button-container">
-          <button 
+          <NuxtLink 
             class="mobile-project-button" 
-            @click="handleMobileClick"
+            @click.prevent="handleMobileProjectClick"
           >
             Обсудить проект
-          </button>
+          </NuxtLink>
         </div>
       </div>
     </transition>
-
-    <Popup v-model="popupVisible" />
+    <Popup v-if="isMobile" v-model="popupVisible" />
   </div>
 </template>
 
@@ -92,12 +92,13 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-const popupVisible = ref(false);
+import Popup from './popup.vue'
+const popupVisible = ref(false)
+
 const isFixed = ref(false);
 const isMobile = ref(false);
 const mobileOpen = ref(false);
 const route = useRoute();
-const router = useRouter();
 
 const updateScroll = () => {
   isFixed.value = window.scrollY > 50;
@@ -105,39 +106,6 @@ const updateScroll = () => {
 
 const checkMobile = () => {
   isMobile.value = window.innerWidth <= 768;
-};
-
-const handleDesktopClick = async () => {
-  try {
-    if (route.path !== '/') {
-      await router.push('/');
-      await new Promise(resolve => setTimeout(resolve, 50));
-    }
-    popupVisible.value = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error('Ошибка при открытии попапа:', error);
-    popupVisible.value = true;
-  }
-};
-
-const handleMobileClick = async () => {
-  try {
-    mobileOpen.value = false;
-    if (route.path !== '/') {
-      await router.push('/');
-      await new Promise(resolve => setTimeout(resolve, 50));
-    }
-    popupVisible.value = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error('Ошибка при открытии попапа:', error);
-    popupVisible.value = true;
-  }
-};
-
-const goToMainAndScroll = () => {
-  router.push({ path: '/', query: { scroll: 'services' } });
 };
 
 onMounted(() => {
@@ -150,6 +118,16 @@ onUnmounted(() => {
   window.removeEventListener("scroll", updateScroll);
   window.removeEventListener("resize", checkMobile);
 });
+
+const router = useRouter();
+function goToMainAndScroll() {
+  router.push({ path: '/', query: { scroll: 'services' } });
+}
+
+const handleMobileProjectClick = () => {
+  mobileOpen.value = false;
+  popupVisible.value = true;
+};
 </script>
 
 <style scoped>
@@ -297,12 +275,9 @@ onUnmounted(() => {
     background-color: #ff4500;
     color: white;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: px;
     font-weight: bold;
     text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    width: 100%;
   }
   
   .slide-down-enter-active,

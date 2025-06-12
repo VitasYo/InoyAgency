@@ -35,7 +35,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+
+const visible = defineModel<boolean>('modelValue') // v-model в родителе
 
 const form = ref({
   name: '',
@@ -73,22 +76,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Общие стили для обеих версий */
-.popup-dialog {
-  border-radius: 12px;
-}
-
-/* Стили только для десктопной версии */
-.popup-dialog:not(.is-mobile) {
-  max-width: 500px;
-}
-
-/* Стили только для мобильной версии */
-.popup-dialog.is-mobile {
-  width: 90%;
-  max-width: 100%;
-}
-
 .popup-header {
   background: #0d1b2a;
   text-align: center;

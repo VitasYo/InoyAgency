@@ -47,7 +47,7 @@
       </div>
 
       <div class="right-button" v-if="!isMobile">
-        <button class="main_button" @click="handleDesktopClick">Обсудить проект</button>
+        <button class="main_button" @click="safeOpenPopup">Обсудить проект</button>
       </div>
     </div>
 
@@ -76,7 +76,7 @@
         <div class="mobile-button-container">
           <button 
             class="mobile-project-button" 
-            @click="handleMobileClick"
+            @click="safeOpenPopup"
           >
             Обсудить проект
           </button>
@@ -107,31 +107,28 @@ const checkMobile = () => {
   isMobile.value = window.innerWidth <= 768;
 };
 
-const handleDesktopClick = async () => {
-  try {
-    if (route.path !== '/') {
-      await router.push('/');
-      await new Promise(resolve => setTimeout(resolve, 50));
-    }
-    popupVisible.value = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error('Ошибка при открытии попапа:', error);
-    popupVisible.value = true;
-  }
-};
-
-const handleMobileClick = async () => {
+const safeOpenPopup = async () => {
   try {
     mobileOpen.value = false;
+    
     if (route.path !== '/') {
       await router.push('/');
-      await new Promise(resolve => setTimeout(resolve, 50));
     }
+    
+    // Небольшая задержка для стабилизации страницы
+    await new Promise(resolve => setTimeout(resolve, 50));
+    
     popupVisible.value = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error('Ошибка при открытии попапа:', error);
+    
+    // Плавный скролл наверх для мобильных
+    if (isMobile.value) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  } catch (e) {
+    console.error('Ошибка при открытии попапа:', e);
     popupVisible.value = true;
   }
 };
@@ -153,6 +150,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Все ваши оригинальные стили остаются без изменений */
 .main_header {
   width: 100%;
   padding: 18px 0;

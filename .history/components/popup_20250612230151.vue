@@ -89,6 +89,11 @@ onUnmounted(() => {
   max-width: 100%;
 }
 
+/* Глубокие стили для Element UI */
+.popup-dialog :deep(.el-dialog__body) {
+  padding: 0;
+}
+
 .popup-header {
   background: #0d1b2a;
   text-align: center;

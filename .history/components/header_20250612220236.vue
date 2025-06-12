@@ -40,14 +40,14 @@
         <el-button
           class="burger"
           icon="Menu"
-          @click="mobileOpen = !mobileOpen"
+          @click="toggleMobileMenu"
           type="primary"
           circle
         />
       </div>
 
       <div class="right-button" v-if="!isMobile">
-        <button class="main_button" @click="handleDesktopClick">Обсудить проект</button>
+        <button class="main_button" @click="openPopup">Обсудить проект</button>
       </div>
     </div>
 
@@ -59,24 +59,24 @@
           :router="true"
           :default-active="route.path"
         >
-          <el-menu-item index="/about" @click="mobileOpen = false">О нас</el-menu-item>
+          <el-menu-item index="/about" @click="closeMobileMenu">О нас</el-menu-item>
           
           <el-sub-menu index="/services">
             <template #title>Услуги</template>
-            <el-menu-item index="/services/tech" @click="mobileOpen = false">Разовая тех настройка</el-menu-item>
-            <el-menu-item index="/services/site" @click="mobileOpen = false">Экспресс-сайт</el-menu-item>
-            <el-menu-item index="/services/audit" @click="mobileOpen = false">Точно-в-цель Аудит</el-menu-item>
-            <el-menu-item index="/services/full" @click="mobileOpen = false">Маркетинг под ключ</el-menu-item>
+            <el-menu-item index="/services/tech" @click="closeMobileMenu">Разовая тех настройка</el-menu-item>
+            <el-menu-item index="/services/site" @click="closeMobileMenu">Экспресс-сайт</el-menu-item>
+            <el-menu-item index="/services/audit" @click="closeMobileMenu">Точно-в-цель Аудит</el-menu-item>
+            <el-menu-item index="/services/full" @click="closeMobileMenu">Маркетинг под ключ</el-menu-item>
           </el-sub-menu>
           
-          <el-menu-item index="/cases" @click="mobileOpen = false">Кейсы</el-menu-item>
-          <el-menu-item index="/contact" @click="mobileOpen = false">Контакты</el-menu-item>
+          <el-menu-item index="/cases" @click="closeMobileMenu">Кейсы</el-menu-item>
+          <el-menu-item index="/contact" @click="closeMobileMenu">Контакты</el-menu-item>
         </el-menu>
         
         <div class="mobile-button-container">
           <button 
             class="mobile-project-button" 
-            @click="handleMobileClick"
+            @click="handleMobileProjectClick"
           >
             Обсудить проект
           </button>
@@ -97,7 +97,6 @@ const isFixed = ref(false);
 const isMobile = ref(false);
 const mobileOpen = ref(false);
 const route = useRoute();
-const router = useRouter();
 
 const updateScroll = () => {
   isFixed.value = window.scrollY > 50;
@@ -107,38 +106,32 @@ const checkMobile = () => {
   isMobile.value = window.innerWidth <= 768;
 };
 
-const handleDesktopClick = async () => {
-  try {
-    if (route.path !== '/') {
-      await router.push('/');
-      await new Promise(resolve => setTimeout(resolve, 50));
-    }
-    popupVisible.value = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error('Ошибка при открытии попапа:', error);
-    popupVisible.value = true;
+const toggleMobileMenu = () => {
+  mobileOpen.value = !mobileOpen.value;
+};
+
+const closeMobileMenu = () => {
+  mobileOpen.value = false;
+};
+
+const openPopup = () => {
+  popupVisible.value = true;
+  closeMobileMenu();
+  // Сбрасываем скролл наверх, если нужно
+  if (isMobile.value) {
+    window.scrollTo(0, 0);
   }
 };
 
-const handleMobileClick = async () => {
-  try {
-    mobileOpen.value = false;
-    if (route.path !== '/') {
-      await router.push('/');
-      await new Promise(resolve => setTimeout(resolve, 50));
-    }
-    popupVisible.value = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (error) {
-    console.error('Ошибка при открытии попапа:', error);
-    popupVisible.value = true;
-  }
+const handleMobileProjectClick = (e: Event) => {
+  e.preventDefault();
+  openPopup();
 };
 
-const goToMainAndScroll = () => {
+const router = useRouter();
+function goToMainAndScroll() {
   router.push({ path: '/', query: { scroll: 'services' } });
-};
+}
 
 onMounted(() => {
   window.addEventListener("scroll", updateScroll);
@@ -153,6 +146,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Все ваши оригинальные стили остаются без изменений */
 .main_header {
   width: 100%;
   padding: 18px 0;
