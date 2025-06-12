@@ -1,6 +1,4 @@
-const express = require('express');
-const router = express.Router();  // Добавьте эту строку
-const axios = require('axios');
+
 
 router.post('/', async (req, res) => {
   console.log('Получен запрос на отправку в Telegram:', req.body);
@@ -45,5 +43,3 @@ router.post('/', async (req, res) => {
     });
   }
 });
-
-module.exports = router;
