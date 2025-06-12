@@ -8,11 +8,17 @@
             <div>marketing agency</div>
           </NuxtLink>
         </div>
+        <el-button
+          class="burger"
+          icon="Menu"
+          @click="mobileOpen = !mobileOpen"
+          type="primary"
+          circle
+        />
       </div>
 
-      <!-- Desktop menu -->
       <el-menu
-        v-if="!isMobile"
+        v-show="!isMobile || mobileOpen"
         mode="horizontal"
         class="main-menu"
         :router="true"
@@ -35,61 +41,17 @@
         <el-menu-item index="/contact">Контакты</el-menu-item>
       </el-menu>
 
-      <!-- Mobile burger and menu -->
-      <div class="mobile-right" v-if="isMobile">
-        <el-button
-          class="burger"
-          icon="Menu"
-          @click="mobileOpen = !mobileOpen"
-          type="primary"
-          circle
-        />
-      </div>
-
-      <div class="right-button" v-if="!isMobile">
+      <div class="right-button">
         <NuxtLink class="main_button" @click="popupVisible = true">Обсудить проект</NuxtLink>
         <Popup v-model="popupVisible" />
       </div>
     </div>
-
-    <!-- Mobile dropdown menu -->
-    <transition name="slide-down">
-      <div v-if="isMobile && mobileOpen" class="mobile-menu">
-        <el-menu
-          class="mobile-menu-list"
-          :router="true"
-          :default-active="route.path"
-        >
-          <el-menu-item index="/about" @click="mobileOpen = false">О нас</el-menu-item>
-          
-          <el-sub-menu index="/services">
-            <template #title>Услуги</template>
-            <el-menu-item index="/services/tech" @click="mobileOpen = false">Разовая тех настройка</el-menu-item>
-            <el-menu-item index="/services/site" @click="mobileOpen = false">Экспресс-сайт</el-menu-item>
-            <el-menu-item index="/services/audit" @click="mobileOpen = false">Точно-в-цель Аудит</el-menu-item>
-            <el-menu-item index="/services/full" @click="mobileOpen = false">Маркетинг под ключ</el-menu-item>
-          </el-sub-menu>
-          
-          <el-menu-item index="/cases" @click="mobileOpen = false">Кейсы</el-menu-item>
-          <el-menu-item index="/contact" @click="mobileOpen = false">Контакты</el-menu-item>
-        </el-menu>
-        
-        <div class="mobile-button-container">
-          <NuxtLink 
-            class="mobile-project-button" 
-            @click="popupVisible = true; mobileOpen = false"
-          >
-            Обсудить проект
-          </NuxtLink>
-        </div>
-      </div>
-    </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 import Popup from './popup.vue'
 const popupVisible = ref(false)
@@ -185,11 +147,6 @@ function goToMainAndScroll() {
   display: none;
 }
 
-.mobile-right {
-  display: none;
-  justify-self: end;
-}
-
 .main_button {
   text-transform: uppercase;
   border: none;
@@ -220,72 +177,21 @@ function goToMainAndScroll() {
   font-weight: bold;
   font-size: 16px;
 }
-
-/* Mobile styles */
+/* Адаптив */
 @media (max-width: 768px) {
-  .container {
-    grid-template-columns: 1fr auto;
-  }
-  
   .main-menu {
-    display: none;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    padding: 20px 0;
   }
-  
-  .right-button {
-    display: none;
-  }
-  
+
   .burger {
     display: block;
   }
-  
-  .mobile-right {
-    display: block;
-  }
-  
-  .mobile-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .mobile-menu-list {
-    border-right: none;
-  }
-  
-  .mobile-button-container {
-    padding: 16px;
-    text-align: center;
-    border-top: 1px solid #eee;
-  }
-  
-  .mobile-project-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #ff4500;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  .slide-down-enter-active,
-  .slide-down-leave-active {
-    transition: all 0.3s ease;
-    max-height: 500px;
-    overflow: hidden;
-  }
-  
-  .slide-down-enter-from,
-  .slide-down-leave-to {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
+
+  .right-button {
+    display: none;
   }
 }
 </style>

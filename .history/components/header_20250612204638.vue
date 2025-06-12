@@ -81,6 +81,7 @@
           >
             Обсудить проект
           </NuxtLink>
+          <Popup v-model="popupVisible" />
         </div>
       </div>
     </transition>

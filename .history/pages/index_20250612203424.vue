@@ -947,6 +947,7 @@ function prevSlide() {
 .about_text {
   font-size: 20px;
   line-height: 1.6;
+  letter-spacing: 0.5px;
 }
 .about_button {
   font-size: 16px;
@@ -977,6 +978,8 @@ function prevSlide() {
     order: 1;
   }
   .about_text {
+    font-size: 18px;
+    line-height: 1.6;
     letter-spacing: 0;
   }
 }
@@ -1009,6 +1012,7 @@ function prevSlide() {
   .about_text {
     font-size: 18px;
     line-height: 1.6;
+    letter-spacing: 0;
   }
 }
 

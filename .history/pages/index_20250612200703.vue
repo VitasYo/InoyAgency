@@ -804,24 +804,23 @@ function prevSlide() {
     gap: 32px;
   }
   .main_block_text {
-    flex: 450px;
+    flex: 500px;
     width: 100%;
     text-align: center;
   }
   .main_block_title {
-    font-size: 48px;
+    font-size: 42px;
     margin-bottom: 16px;
   }
   .main_block_subtitle {
     font-size: 24px;
-    margin: 0 auto;
+    margin: 0 auto 24px;
     line-height: 1.5;
     padding: 0 0;
     width: 100%;
-    height: 25%;
   }
   .main_block_buttons {
-    margin-top: 0;
+    margin-top: 24px;
     flex-direction: column;
     align-items: center;
     gap: 12px;
@@ -840,9 +839,10 @@ function prevSlide() {
     justify-content: center;
     align-items: center;
   }
-  .main_image {
-    position: relative;
-    bottom: 0;
+  .main_block_image img {
+    height: auto;
+    width: 100%;
+    border-radius: 12px;
   }
   .image-overlay {
     display: none;
@@ -913,14 +913,13 @@ function prevSlide() {
   text-align: left;
   border-radius: 20px;
   padding: 38px 45px;
-  flex: 1 1 340px;
+  flex: 1 1 500px;
+  z-index: 2;
   display: flex;
   flex-direction: column;
 }
 .about_photo_card {
-  margin-top: -4%;
-  margin-left: -6%;
-  flex: 1 1 400px;
+  flex: 1 1 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -947,6 +946,7 @@ function prevSlide() {
 .about_text {
   font-size: 20px;
   line-height: 1.6;
+  letter-spacing: 0.5px;
 }
 .about_button {
   font-size: 16px;
@@ -969,15 +969,9 @@ function prevSlide() {
   }
   .about_text_card {
     order: 2;
-    flex: 1 1 300px;
   }
   .about_photo_card {
-    margin-top: 0;
-    margin-left: 0;
     order: 1;
-  }
-  .about_text {
-    letter-spacing: 0;
   }
 }
 @media (max-width: 768px) {
@@ -1008,7 +1002,6 @@ function prevSlide() {
   }
   .about_text {
     font-size: 18px;
-    line-height: 1.6;
   }
 }
 

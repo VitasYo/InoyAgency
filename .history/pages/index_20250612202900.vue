@@ -947,6 +947,7 @@ function prevSlide() {
 .about_text {
   font-size: 20px;
   line-height: 1.6;
+  letter-spacing: 0.5px;
 }
 .about_button {
   font-size: 16px;
@@ -969,15 +970,9 @@ function prevSlide() {
   }
   .about_text_card {
     order: 2;
-    flex: 1 1 300px;
   }
   .about_photo_card {
-    margin-top: 0;
-    margin-left: 0;
     order: 1;
-  }
-  .about_text {
-    letter-spacing: 0;
   }
 }
 @media (max-width: 768px) {
@@ -993,6 +988,8 @@ function prevSlide() {
     flex: 1 1 200px;
   }
   .about_photo_card {
+  margin-top: -4%;
+    margin-left: -6%;
     width: 100%;
     text-align: center;
   }
@@ -1009,6 +1006,7 @@ function prevSlide() {
   .about_text {
     font-size: 18px;
     line-height: 1.6;
+    letter-spacing: 0;
   }
 }
 

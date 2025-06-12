@@ -913,14 +913,13 @@ function prevSlide() {
   text-align: left;
   border-radius: 20px;
   padding: 38px 45px;
-  flex: 1 1 340px;
+  flex: 1 1 500px;
+  z-index: 2;
   display: flex;
   flex-direction: column;
 }
 .about_photo_card {
-  margin-top: -4%;
-  margin-left: -6%;
-  flex: 1 1 400px;
+  flex: 1 1 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -947,6 +946,7 @@ function prevSlide() {
 .about_text {
   font-size: 20px;
   line-height: 1.6;
+  letter-spacing: 0.5px;
 }
 .about_button {
   font-size: 16px;
@@ -969,15 +969,9 @@ function prevSlide() {
   }
   .about_text_card {
     order: 2;
-    flex: 1 1 300px;
   }
   .about_photo_card {
-    margin-top: 0;
-    margin-left: 0;
     order: 1;
-  }
-  .about_text {
-    letter-spacing: 0;
   }
 }
 @media (max-width: 768px) {
@@ -1008,7 +1002,20 @@ function prevSlide() {
   }
   .about_text {
     font-size: 18px;
+    
     line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+  .about_button {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ee4400;
+    text-decoration: underline;
+    margin-top: 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
   }
 }
 

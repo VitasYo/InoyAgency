@@ -77,7 +77,7 @@
         <div class="mobile-button-container">
           <NuxtLink 
             class="mobile-project-button" 
-            @click="popupVisible = true; mobileOpen = false"
+            @click.prevent="handleMobileProjectClick"
           >
             Обсудить проект
           </NuxtLink>
@@ -122,6 +122,11 @@ const router = useRouter();
 function goToMainAndScroll() {
   router.push({ path: '/', query: { scroll: 'services' } });
 }
+
+const handleMobileProjectClick = () => {
+  mobileOpen.value = false;
+  popupVisible.value = true;
+};
 </script>
 
 <style scoped>
@@ -264,28 +269,4 @@ function goToMainAndScroll() {
   }
   
   .mobile-project-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #ff4500;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  .slide-down-enter-active,
-  .slide-down-leave-active {
-    transition: all 0.3s ease;
-    max-height: 500px;
-    overflow: hidden;
-  }
-  
-  .slide-down-enter-from,
-  .slide-down-leave-to {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-  }
-}
-</style>
+   

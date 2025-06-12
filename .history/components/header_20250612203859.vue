@@ -269,7 +269,7 @@ function goToMainAndScroll() {
     background-color: #ff4500;
     color: white;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 4px;
     font-weight: bold;
     text-transform: uppercase;
   }

@@ -77,7 +77,7 @@
         <div class="mobile-button-container">
           <NuxtLink 
             class="mobile-project-button" 
-            @click="popupVisible = true; mobileOpen = false"
+            @click.prevent="handleMobileProjectClick"
           >
             Обсудить проект
           </NuxtLink>

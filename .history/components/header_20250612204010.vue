@@ -272,6 +272,7 @@ function goToMainAndScroll() {
     border-radius: 10px;
     font-weight: bold;
     text-transform: uppercase;
+    fon
   }
   
   .slide-down-enter-active,

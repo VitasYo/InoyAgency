@@ -76,11 +76,11 @@
         
         <div class="mobile-button-container">
           <NuxtLink 
-            class="mobile-project-button" 
-            @click="popupVisible = true; mobileOpen = false"
-          >
-            Обсудить проект
-          </NuxtLink>
+          class="mobile-project-button" 
+          @click.prevent="handleMobileProjectClick"
+        >
+          Обсудить проект
+        </NuxtLink>
         </div>
       </div>
     </transition>
