@@ -67,7 +67,7 @@ const handleSubmit = async () => {
     }
   } else {
     // вход — проверка на сервере
-    const res = await fetch('http://176.124.200.169:3001/api/auth/login', {
+    const res = await fetch('http://localhost:3001/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)

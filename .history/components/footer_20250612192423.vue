@@ -349,10 +349,6 @@ const submitForm = async () => {
 }
 /* Адаптация для мобильных */
 @media (max-width: 768px) {
-  .form {
-    padding: 80px 5px;
-    color: white;
-  }
   .form_elements {
     flex-direction: column;
     align-items: center;
@@ -361,6 +357,7 @@ const submitForm = async () => {
     flex-direction: column; /* изменяем на колонку */
     gap: 10px;
     margin-bottom: 10px;
+    width: 100%;
   }
   .form_title {
     line-height: 110%;

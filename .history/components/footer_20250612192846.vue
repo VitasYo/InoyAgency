@@ -350,9 +350,10 @@ const submitForm = async () => {
 /* Адаптация для мобильных */
 @media (max-width: 768px) {
   .form {
-    padding: 80px 5px;
-    color: white;
-  }
+  background: #62007b;
+  padding: 80px 20px;
+  color: white;
+}
   .form_elements {
     flex-direction: column;
     align-items: center;

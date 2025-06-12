@@ -118,7 +118,7 @@ const loadForms = async () => {
 }
 
 const updateStatus = async (id: number, status: string) => {
-  const { data } = await useFetch(`http://176.124.200.169:3001/api/form-admin/${id}`, {
+  const { data } = await useFetch(`http://localhost:3001/api/form-admin/${id}`, {
     method: 'PUT',
     body: { status }
   })
@@ -138,7 +138,7 @@ const deleteEntry = async (id: number) => {
       type: 'warning'
     })
 
-    const { data } = await useFetch(`http://176.124.200.169:3001/api/form-admin/${id}`, {
+    const { data } = await useFetch(`http://localhost:3001/api/form-admin/${id}`, {
       method: 'DELETE'
     })
 

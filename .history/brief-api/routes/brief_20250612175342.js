@@ -55,7 +55,7 @@ ${answers.map((answer, i) => `▫️ <b>${questions[i].title}</b>: ${answer}`).j
     `;
 
     // Отправляем уведомление в Telegram
-    await axios.post('http://176.124.200.169:3001/api/send-telegram', {
+    await axios.post('http://localhost:3001/api/send-telegram', {
       message: telegramMessage
     });
 

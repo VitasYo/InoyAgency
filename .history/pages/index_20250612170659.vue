@@ -616,7 +616,7 @@ async function nextSlide() {
     const price = calculatePrice(answers.value)
     finalPrice.value = price
 
-    const response = await useFetch('http://176.124.200.169:3001/api/brief', {
+    const response = await useFetch('http://3001:3001/api/brief', {
       method: 'POST',
       body: {
         answers: answers.value,

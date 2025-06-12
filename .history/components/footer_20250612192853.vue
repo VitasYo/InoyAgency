@@ -350,7 +350,7 @@ const submitForm = async () => {
 /* Адаптация для мобильных */
 @media (max-width: 768px) {
   .form {
-    padding: 80px 5px;
+    padding: 80px 20px;
     color: white;
   }
   .form_elements {
