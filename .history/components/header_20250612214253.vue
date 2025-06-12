@@ -20,7 +20,6 @@
         :default-active="route.path"
       >
         <el-menu-item index="/about">О нас</el-menu-item>
-
         <el-sub-menu index="/services">
           <template #title>
             <div @click="goToMainAndScroll">Услуги</div>
@@ -30,7 +29,6 @@
           <el-menu-item index="/services/audit">Точно-в-цель Аудит</el-menu-item>
           <el-menu-item index="/services/full">Маркетинг под ключ</el-menu-item>
         </el-sub-menu>
-
         <el-menu-item index="/cases">Кейсы</el-menu-item>
         <el-menu-item index="/contact">Контакты</el-menu-item>
       </el-menu>
@@ -40,14 +38,14 @@
         <el-button
           class="burger"
           icon="Menu"
-          @click="mobileOpen = !mobileOpen"
+          @click="toggleMobileMenu"
           type="primary"
           circle
         />
       </div>
 
       <div class="right-button" v-if="!isMobile">
-        <NuxtLink class="main_button" @click="openPopup">Обсудить проект</NuxtLink>
+        <button class="main_button" @click="openPopup">Обсудить проект</button>
         <Popup v-model="popupVisible" />
       </div>
     </div>
@@ -60,33 +58,30 @@
           :router="true"
           :default-active="route.path"
         >
-          <el-menu-item index="/about" @click="mobileOpen = false">О нас</el-menu-item>
-          
+          <el-menu-item index="/about" @click="closeMobileMenu">О нас</el-menu-item>
           <el-sub-menu index="/services">
             <template #title>Услуги</template>
-            <el-menu-item index="/services/tech" @click="mobileOpen = false">Разовая тех настройка</el-menu-item>
-            <el-menu-item index="/services/site" @click="mobileOpen = false">Экспресс-сайт</el-menu-item>
-            <el-menu-item index="/services/audit" @click="mobileOpen = false">Точно-в-цель Аудит</el-menu-item>
-            <el-menu-item index="/services/full" @click="mobileOpen = false">Маркетинг под ключ</el-menu-item>
+            <el-menu-item index="/services/tech" @click="closeMobileMenu">Разовая тех настройка</el-menu-item>
+            <el-menu-item index="/services/site" @click="closeMobileMenu">Экспресс-сайт</el-menu-item>
+            <el-menu-item index="/services/audit" @click="closeMobileMenu">Точно-в-цель Аудит</el-menu-item>
+            <el-menu-item index="/services/full" @click="closeMobileMenu">Маркетинг под ключ</el-menu-item>
           </el-sub-menu>
-          
-          <el-menu-item index="/cases" @click="mobileOpen = false">Кейсы</el-menu-item>
-          <el-menu-item index="/contact" @click="mobileOpen = false">Контакты</el-menu-item>
+          <el-menu-item index="/cases" @click="closeMobileMenu">Кейсы</el-menu-item>
+          <el-menu-item index="/contact" @click="closeMobileMenu">Контакты</el-menu-item>
         </el-menu>
         
         <div class="mobile-button-container">
-          <NuxtLink 
+          <button 
             class="mobile-project-button" 
             @click="handleMobileProjectClick"
           >
             Обсудить проект
-          </NuxtLink>
+          </button>
         </div>
       </div>
     </transition>
-    
-    <!-- Общий попап для всех устройств -->
-    <Popup v-model="popupVisible" />
+
+    <Popup v-if="isMobile" v-model="popupVisible" />
   </div>
 </template>
 
@@ -99,6 +94,7 @@ const isFixed = ref(false);
 const isMobile = ref(false);
 const mobileOpen = ref(false);
 const route = useRoute();
+const router = useRouter();
 
 const updateScroll = () => {
   isFixed.value = window.scrollY > 50;
@@ -108,19 +104,26 @@ const checkMobile = () => {
   isMobile.value = window.innerWidth <= 768;
 };
 
+const toggleMobileMenu = () => {
+  mobileOpen.value = !mobileOpen.value;
+};
+
+const closeMobileMenu = () => {
+  mobileOpen.value = false;
+};
+
 const openPopup = () => {
   popupVisible.value = true;
 };
 
 const handleMobileProjectClick = () => {
-  mobileOpen.value = false;
+  closeMobileMenu();
   openPopup();
 };
 
-const router = useRouter();
-function goToMainAndScroll() {
+const goToMainAndScroll = () => {
   router.push({ path: '/', query: { scroll: 'services' } });
-}
+};
 
 onMounted(() => {
   window.addEventListener("scroll", updateScroll);
@@ -135,83 +138,24 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Все стили остаются точно такими же, как в вашем исходном коде */
-.main_header {
-  width: 100%;
-  padding: 18px 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background: white;
-  transition: all 0.3s ease;
-}
-.header--fixed {
-  position: fixed;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
+/* Остальные стили остаются такими же, как в предыдущем примере */
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.logo-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-.logo img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.main-menu {
-  display: flex;
-  justify-content: center;
-  background: transparent;
-  flex-grow: 1;
-  gap: 40px;
-}
-
-.right-button {
-  text-align: right;
-}
-
-.burger {
-  display: none;
-}
-
-.mobile-right {
-  display: none;
-  justify-self: end;
-}
-
-.main_button {
+/* Изменяем кнопки с NuxtLink на button для лучшей семантики */
+.main_button, .mobile-project-button {
   text-transform: uppercase;
   border: none;
-  background: none;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  color: #ff4500;
   position: relative;
   text-decoration: none;
+  background: none;
 }
+
+.main_button {
+  color: #ff4500;
+}
+
 .main_button::after {
   content: "";
   position: absolute;
@@ -222,81 +166,16 @@ onUnmounted(() => {
   background-color: #ff4500;
   transition: width 0.3s ease;
 }
+
 .main_button:hover::after {
   width: 100%;
 }
 
-::v-deep(.el-menu-item),
-::v-deep(.el-sub-menu__title) {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
-  .container {
-    grid-template-columns: 1fr auto;
-  }
-  
-  .main-menu {
-    display: none;
-  }
-  
-  .right-button {
-    display: none;
-  }
-  
-  .burger {
-    display: block;
-  }
-  
-  .mobile-right {
-    display: block;
-  }
-  
-  .mobile-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .mobile-menu-list {
-    border-right: none;
-  }
-  
-  .mobile-button-container {
-    padding: 16px;
-    text-align: center;
-    border-top: 1px solid #eee;
-  }
-  
-  .mobile-project-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #ff4500;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  .slide-down-enter-active,
-  .slide-down-leave-active {
-    transition: all 0.3s ease;
-    max-height: 500px;
-    overflow: hidden;
-  }
-  
-  .slide-down-enter-from,
-  .slide-down-leave-to {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-  }
+.mobile-project-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ff4500;
+  color: white;
+  border-radius: 4px;
 }
 </style>

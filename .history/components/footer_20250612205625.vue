@@ -110,7 +110,7 @@
           <p><a href="/services/tech">Разовая тех настройка</a></p>
           <p><a href="/services/site">Экспресс-сайт</a></p>
           <p><a href="/services/audit">Точно-в-цель Аудит</a></p>
-          <p><a href="/services/full">Маркетинг под ключ</a></p>
+          <p><a href="/services/marketing">Маркетинг под ключ</a></p>
         </div>
       </div>
 

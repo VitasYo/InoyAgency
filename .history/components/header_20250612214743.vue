@@ -47,7 +47,7 @@
       </div>
 
       <div class="right-button" v-if="!isMobile">
-        <NuxtLink class="main_button" @click="openPopup">Обсудить проект</NuxtLink>
+        <NuxtLink class="main_button" @click="popupVisible = true">Обсудить проект</NuxtLink>
         <Popup v-model="popupVisible" />
       </div>
     </div>
@@ -77,16 +77,14 @@
         <div class="mobile-button-container">
           <NuxtLink 
             class="mobile-project-button" 
-            @click="handleMobileProjectClick"
+            @click.prevent="handleMobileProjectClick"
           >
             Обсудить проект
           </NuxtLink>
         </div>
       </div>
     </transition>
-    
-    <!-- Общий попап для всех устройств -->
-    <Popup v-model="popupVisible" />
+    <Popup v-if="isMobile" v-model="popupVisible" />
   </div>
 </template>
 
@@ -94,7 +92,9 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-const popupVisible = ref(false);
+import Popup from './popup.vue'
+const popupVisible = ref(false)
+
 const isFixed = ref(false);
 const isMobile = ref(false);
 const mobileOpen = ref(false);
@@ -108,20 +108,6 @@ const checkMobile = () => {
   isMobile.value = window.innerWidth <= 768;
 };
 
-const openPopup = () => {
-  popupVisible.value = true;
-};
-
-const handleMobileProjectClick = () => {
-  mobileOpen.value = false;
-  openPopup();
-};
-
-const router = useRouter();
-function goToMainAndScroll() {
-  router.push({ path: '/', query: { scroll: 'services' } });
-}
-
 onMounted(() => {
   window.addEventListener("scroll", updateScroll);
   window.addEventListener("resize", checkMobile);
@@ -132,10 +118,28 @@ onUnmounted(() => {
   window.removeEventListener("scroll", updateScroll);
   window.removeEventListener("resize", checkMobile);
 });
+
+const router = useRouter();
+function goToMainAndScroll() {
+  router.push({ path: '/', query: { scroll: 'services' } });
+}
+const popupVisible = ref(false);
+const mobileOpen = ref(false);
+const closeMobileMenu = () => {
+  mobileOpen.value = false;
+};
+
+const openPopup = () => {
+  popupVisible.value = true;
+};
+
+const handleMobileProjectClick = () => {
+  closeMobileMenu();
+  openPopup();
+};
 </script>
 
 <style scoped>
-/* Все стили остаются точно такими же, как в вашем исходном коде */
 .main_header {
   width: 100%;
   padding: 18px 0;
