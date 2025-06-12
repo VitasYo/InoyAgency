@@ -1,0 +1,113 @@
+<template>
+  <el-dialog
+    :model-value="isOpen"
+    :title="currentTariff.title"
+    width="%"
+    :before-close="handleClose"
+    custom-class="custom-modal"
+  >
+    <div class="modal-price">{{ currentTariff.price }}</div>
+    <p class="modal-description">{{ currentTariff.description }}</p>
+    
+    <el-divider />
+    <h3 class="modal-section-title">Что входит:</h3>
+    <ul class="modal-list">
+      <li v-for="(feature, index) in currentTariff.features" :key="`feature-${index}`">
+        {{ feature }}
+      </li>
+    </ul>
+
+    <el-divider />
+    <h3 class="modal-section-title">Алгоритм работы:</h3>
+    <ol class="modal-list">
+      <li v-for="(step, index) in currentTariff.algorithm" :key="`step-${index}`">
+        {{ step }}
+      </li>
+    </ol>
+
+    <el-divider v-if="currentTariff.team" />
+    <h3 v-if="currentTariff.team" class="modal-section-title">Команда:</h3>
+    <ul v-if="currentTariff.team" class="modal-list">
+      <li v-for="(member, index) in currentTariff.team" :key="`member-${index}`">
+        {{ member }}
+      </li>
+    </ul>
+    
+    <template #footer>
+      <el-button type="primary" @click="$emit('close')">Закрыть</el-button>
+    </template>
+  </el-dialog>
+</template>
+
+<script setup lang="ts">
+import type { Tariff } from '@/pages/services/types/marketing'
+
+defineProps<{
+  isOpen: boolean
+  currentTariff: Tariff
+}>()
+
+const emit = defineEmits(['close'])
+
+const handleClose = (done: () => void) => {
+  emit('close')
+  done()
+}
+</script>
+
+<style>
+/* Глобальные стили для модального окна */
+.custom-modal {
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.custom-modal .el-dialog__header {
+  border-bottom: 1px solid var(--el-border-color-light);
+  margin-right: 0;
+}
+
+.custom-modal .el-dialog__body {
+  padding: 20px 25px;
+  color: var(--el-text-color-primary);
+}
+
+.custom-modal .el-dialog__footer {
+  border-top: 1px solid var(--el-border-color-light);
+  padding-top: 20px;
+}
+
+/* Кастомные стили контента */
+.modal-price {
+  color: var(--el-color-primary);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.modal-description {
+  color: var(--el-text-color-regular);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.modal-section-title {
+  color: #62007b;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.modal-list {
+  padding-left: 20px;
+  line-height: 1.8;
+  color: var(--el-text-color-regular);
+}
+
+.modal-list li {
+  margin-bottom: 8px;
+}
+
+.el-divider--horizontal {
+  margin: 20px 0;
+}
+</style>
