@@ -24,6 +24,7 @@ app.use('/api/auth', authRouter)
 const PORT = 3001
 app.listen(PORT, () => console.log(`Server running on http://176.124.200.169:${PORT}`))
 
+const cors = require('cors');
 app.use(cors({
   origin: ['https://inoy-agency.ru', 'https://www.inoy-agency.ru'],
   methods: ['GET', 'POST']
